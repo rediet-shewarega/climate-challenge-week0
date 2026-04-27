@@ -39,7 +39,7 @@ climate-challenge-week0/
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/birukb-turing/climate-challenge-week0.git
+git clone https://github.com/rediet-shewarega/climate-challenge-week0.git
 cd climate-challenge-week0
 ```
 
