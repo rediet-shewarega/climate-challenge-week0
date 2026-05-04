@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>African Climate Trend Analysis — Interim Report</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Georgia', serif; color: #1a1a2e; background: #fff; font-size: 13pt; line-height: 1.7; }
+  
+  .cover {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; padding: 60px 40px; page-break-after: always;
+  }
+  .cover .badge {
+    background: rgba(231,57,70,0.15); border: 1px solid #E63946;
+    color: #E63946; padding: 6px 20px; border-radius: 20px;
+    font-size: 11pt; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 32px;
+  }
+  .cover h1 { color: #fff; font-size: 32pt; font-weight: 700; margin-bottom: 12px; line-height: 1.2; }
+  .cover h2 { color: #a8c8e8; font-size: 16pt; font-weight: 400; margin-bottom: 40px; }
+  .cover .divider { width: 60px; height: 3px; background: #E63946; margin: 32px auto; }
+  .cover .meta { color: #c8d8e8; font-size: 11pt; line-height: 2; }
+  .cover .meta strong { color: #fff; }
+  .cover .flag { font-size: 28pt; margin-bottom: 16px; }
+
+  .content { max-width: 820px; margin: 0 auto; padding: 60px 50px; }
+
+  h1.section-title {
+    font-size: 22pt; color: #E63946; border-bottom: 3px solid #E63946;
+    padding-bottom: 10px; margin: 50px 0 24px; page-break-before: always;
+  }
+  h1.section-title:first-child { page-break-before: avoid; }
+  h2 { font-size: 15pt; color: #0f3460; margin: 30px 0 12px; }
+  h3 { font-size: 12pt; color: #16213e; margin: 20px 0 8px; text-transform: uppercase; letter-spacing: 1px; }
+
+  p { margin-bottom: 14px; text-align: justify; }
+
+  .kpi-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 24px 0; }
+  .kpi-card {
+    background: #f8f9fa; border-left: 4px solid #E63946;
+    border-radius: 6px; padding: 16px; text-align: center;
+  }
+  .kpi-card .val { font-size: 24pt; font-weight: 700; color: #E63946; }
+  .kpi-card .lbl { font-size: 9pt; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+  .commit-list { list-style: none; margin: 16px 0; }
+  .commit-list li {
+    background: #f8f9fa; border-radius: 6px; padding: 12px 16px;
+    margin-bottom: 10px; border-left: 3px solid #0f3460;
+    font-family: 'Courier New', monospace; font-size: 10pt;
+  }
+  .commit-list li .hash { color: #E63946; margin-right: 10px; }
+  .commit-list li .msg { color: #1a1a2e; }
+  .commit-list li .desc { color: #666; font-size: 9pt; margin-top: 4px; display: block; }
+
+  .branch-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 11pt; }
+  .branch-table th { background: #0f3460; color: #fff; padding: 10px 14px; text-align: left; }
+  .branch-table td { padding: 10px 14px; border-bottom: 1px solid #e0e0e0; }
+  .branch-table tr:nth-child(even) td { background: #f8f9fa; }
+
+  .pipeline { display: flex; align-items: center; gap: 8px; margin: 20px 0; flex-wrap: wrap; }
+  .pipeline-step {
+    background: #0f3460; color: #fff; padding: 10px 18px;
+    border-radius: 6px; font-size: 10pt; text-align: center; min-width: 130px;
+  }
+  .pipeline-arrow { color: #E63946; font-size: 18pt; font-weight: 700; }
+
+  .checklist { list-style: none; margin: 16px 0; }
+  .checklist li { padding: 8px 0; border-bottom: 1px solid #f0f0f0; font-size: 11pt; }
+  .checklist li::before { content: "✅ "; margin-right: 6px; }
+
+  .task2-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; }
+  .task2-card {
+    border: 1px solid #e0e0e0; border-radius: 8px; padding: 18px;
+    border-top: 4px solid #E63946;
+  }
+  .task2-card h4 { color: #0f3460; font-size: 11pt; margin-bottom: 10px; }
+  .task2-card ul { padding-left: 18px; font-size: 10pt; line-height: 1.8; color: #444; }
+
+  .insight-box {
+    background: linear-gradient(135deg, #1a1a2e, #0f3460);
+    color: #fff; border-radius: 10px; padding: 24px 28px; margin: 24px 0;
+  }
+  .insight-box h4 { color: #E63946; margin-bottom: 12px; font-size: 12pt; }
+  .insight-box ul { padding-left: 18px; font-size: 10.5pt; line-height: 2; }
+
+  .country-row { display: flex; gap: 10px; flex-wrap: wrap; margin: 16px 0; }
+  .country-pill {
+    padding: 6px 16px; border-radius: 20px; font-size: 10pt; font-weight: 600;
+    color: #fff;
+  }
+
+  .ci-box {
+    background: #f0fff4; border: 1px solid #2A9D8F; border-radius: 8px;
+    padding: 16px 20px; margin: 16px 0; font-family: 'Courier New', monospace; font-size: 9.5pt;
+  }
+  .ci-box .ok { color: #2A9D8F; font-weight: 700; }
+
+  .footer {
+    margin-top: 60px; padding: 30px 50px; background: #1a1a2e;
+    text-align: center; color: #a8c8e8; font-size: 10pt;
+  }
+  .footer strong { color: #fff; }
+
+  @media print {
+    body { font-size: 11pt; }
+    .cover { min-height: auto; padding: 80px 60px; }
+    .content { padding: 40px 50px; }
+    h1.section-title { page-break-before: always; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER PAGE -->
+<div class="cover">
+  <div class="flag">🇪🇹</div>
+  <div class="badge">10 Academy · Week 0 · Interim Report</div>
+  <h1>African Climate<br>Trend Analysis</h1>
+  <h2>COP32 Preparatory EDA — Interim Submission</h2>
+  <div class="divider"></div>
+  <div class="meta">
+    <strong>Submitted by:</strong> Rediet Shewarega<br>
+    <strong>GitHub:</strong> github.com/rediet-shewarega/climate-challenge-week0<br>
+    <strong>Track:</strong> Data Engineering / Machine Learning Engineering<br>
+    <strong>Date:</strong> April 27, 2026<br>
+    <strong>Submission Deadline:</strong> April 26, 2026 — 8:00 PM UTC (Interim)
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="content">
+
+  <!-- SECTION 1 -->
+  <h1 class="section-title">Task 1 — Git & Environment Setup</h1>
+
+  <p>
+    This section documents the complete version-control and development environment setup
+    completed as the foundation for the Week 0 climate analysis challenge.
+    All work lives in a public GitHub repository under the account
+    <strong>rediet-shewarega</strong>, following the Conventional Commits specification
+    and the branching strategy prescribed by the challenge.
+  </p>
+
+  <h2>1.1 Repository Overview</h2>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="val">5</div>
+      <div class="lbl">Feature Branches</div>
+    </div>
+    <div class="kpi-card">
+      <div class="val">3</div>
+      <div class="lbl">Conventional Commits</div>
+    </div>
+    <div class="kpi-card">
+      <div class="val">1</div>
+      <div class="lbl">PR Merged to Main</div>
+    </div>
+  </div>
+
+  <p>
+    Repository URL: <strong>https://github.com/rediet-shewarega/climate-challenge-week0</strong>
+  </p>
+
+  <h2>1.2 Commit History on <code>setup-task</code></h2>
+
+  <ul class="commit-list">
+    <li>
+      <span class="hash">dcd9c32</span>
+      <span class="msg">init: add .gitignore and project scaffold</span>
+      <span class="desc">Added .gitignore excluding data/, CSVs, venvs, and Jupyter checkpoints. Added requirements.txt with pinned core dependencies. Added README.md documenting environment setup and folder structure.</span>
+    </li>
+    <li>
+      <span class="hash">e57a40d</span>
+      <span class="msg">ci: add GitHub Actions workflow for dependency validation</span>
+      <span class="desc">Added .github/workflows/ci.yml — triggers on push to main and all feature branches, installs requirements, and validates core imports on ubuntu-latest with Python 3.11.</span>
+    </li>
+    <li>
+      <span class="hash">cd24e8a</span>
+      <span class="msg">chore: scaffold project directories with init files and READMEs</span>
+      <span class="desc">Added src/, tests/, scripts/, notebooks/, app/ with __init__.py stubs and README files per the challenge folder structure specification.</span>
+    </li>
+  </ul>
+
+  <h2>1.3 Branch Strategy</h2>
+
+  <table class="branch-table">
+    <thead>
+      <tr><th>Branch</th><th>Purpose</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>main</code></td><td>Production-ready, merged code</td><td>✅ Live</td></tr>
+      <tr><td><code>setup-task</code></td><td>Task 1 — Git & environment setup</td><td>✅ Merged via PR #1</td></tr>
+      <tr><td><code>eda-ethiopia</code></td><td>Task 2 — Ethiopia EDA notebook</td><td>✅ Pushed</td></tr>
+      <tr><td><code>compare-countries</code></td><td>Task 3 — Cross-country comparison</td><td>✅ Pushed</td></tr>
+      <tr><td><code>dashboard-dev</code></td><td>Bonus — Streamlit dashboard</td><td>✅ Pushed</td></tr>
+    </tbody>
+  </table>
+
+  <h2>1.4 GitHub Actions CI</h2>
+
+  <p>
+    A CI workflow (<code>.github/workflows/ci.yml</code>) was configured to run automatically
+    on every push to <code>main</code> and all feature branches, and on every pull request.
+    The workflow:
+  </p>
+  <ul class="checklist">
+    <li>Sets up Python 3.11 on ubuntu-latest</li>
+    <li>Runs <code>python --version</code> to confirm environment</li>
+    <li>Runs <code>pip install -r requirements.txt</code></li>
+    <li>Validates all core imports (pandas, numpy, matplotlib, seaborn, scipy, streamlit, plotly)</li>
+  </ul>
+
+  <div class="ci-box">
+    <span class="ok">✓</span> Set up Python 3.11<br>
+    <span class="ok">✓</span> Display Python version → Python 3.11.x<br>
+    <span class="ok">✓</span> Install dependencies → pip install -r requirements.txt<br>
+    <span class="ok">✓</span> Check imports → All core imports OK
+  </div>
+
+  <h2>1.5 Folder Structure</h2>
+
+  <div class="ci-box">
+climate-challenge-week0/<br>
+├── .github/workflows/ci.yml &nbsp;&nbsp;&nbsp; ← GitHub Actions CI<br>
+├── .gitignore &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ← excludes data/, *.csv, venv/<br>
+├── requirements.txt<br>
+├── README.md<br>
+├── data/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ← gitignored; raw & cleaned CSVs here<br>
+├── notebooks/<br>
+│&nbsp;&nbsp; ├── ethiopia_eda.ipynb<br>
+│&nbsp;&nbsp; ├── kenya_eda.ipynb<br>
+│&nbsp;&nbsp; ├── sudan_eda.ipynb<br>
+│&nbsp;&nbsp; ├── tanzania_eda.ipynb<br>
+│&nbsp;&nbsp; ├── nigeria_eda.ipynb<br>
+│&nbsp;&nbsp; └── compare_countries.ipynb<br>
+├── app/<br>
+│&nbsp;&nbsp; ├── main.py &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ← Streamlit dashboard<br>
+│&nbsp;&nbsp; └── utils.py<br>
+├── scripts/<br>
+├── src/<br>
+└── tests/
+  </div>
+
+  <h2>1.6 Environment Reproduction</h2>
+
+  <div class="pipeline">
+    <div class="pipeline-step">git clone repo</div>
+    <div class="pipeline-arrow">→</div>
+    <div class="pipeline-step">python -m venv venv</div>
+    <div class="pipeline-arrow">→</div>
+    <div class="pipeline-step">pip install -r requirements.txt</div>
+    <div class="pipeline-arrow">→</div>
+    <div class="pipeline-step">jupyter notebook</div>
+  </div>
+
+  <p>
+    Full instructions are documented in <code>README.md</code> at the root of the repository,
+    covering prerequisites, virtual environment creation (venv/conda), dependency installation,
+    data file placement, notebook execution, and Streamlit dashboard launch.
+  </p>
+
+  <!-- SECTION 2 -->
+  <h1 class="section-title">Task 2 — Data Profiling & Cleaning Approach</h1>
+
+  <p>
+    This section outlines the analytical approach for Task 2: Data Profiling, Cleaning, and
+    Exploratory Data Analysis. Notebooks have been structured and are ready to execute once
+    the NASA POWER CSV files are placed in the <code>data/</code> directory.
+    The approach is consistent across all five countries, with country-specific observations
+    expected upon execution.
+  </p>
+
+  <h2>2.1 Countries & Dataset</h2>
+
+  <div class="country-row">
+    <span class="country-pill" style="background:#E63946;">🇪🇹 Ethiopia</span>
+    <span class="country-pill" style="background:#2A9D8F;">🇰🇪 Kenya</span>
+    <span class="country-pill" style="background:#b5860d;">🇸🇩 Sudan</span>
+    <span class="country-pill" style="background:#264653;">🇹🇿 Tanzania</span>
+    <span class="country-pill" style="background:#F4A261; color:#1a1a2e;">🇳🇬 Nigeria</span>
+  </div>
+
+  <p>
+    Source: NASA POWER (Prediction of Worldwide Energy Resources) database.
+    Daily observations, January 2015 – March 2026. Variables: T2M, T2M_MAX, T2M_MIN,
+    T2M_RANGE, PRECTOTCORR, RH2M, WS2M, WS2M_MAX, PS, QV2M.
+  </p>
+
+  <h2>2.2 Six-Stage Pipeline</h2>
+
+  <div class="task2-grid">
+    <div class="task2-card">
+      <h4>Stage 1 — Data Loading & Date Parsing</h4>
+      <ul>
+        <li>Load CSV via <code>pd.read_csv()</code></li>
+        <li>Add <code>Country</code> column identifier</li>
+        <li>Convert YEAR + DOY → proper datetime using <code>pd.to_datetime(YEAR*1000 + DOY, format="%Y%j")</code></li>
+        <li>Extract <code>Month</code> column for seasonal analysis</li>
+      </ul>
+    </div>
+    <div class="task2-card">
+      <h4>Stage 2 — Summary Statistics & Missing Values</h4>
+      <ul>
+        <li>Replace NASA sentinel <code>-999</code> with <code>np.nan</code> before any stats</li>
+        <li>Run <code>df.duplicated().sum()</code> and drop duplicates</li>
+        <li>Run <code>df.describe()</code> with written interpretation</li>
+        <li>Report columns with &gt;5% missing values</li>
+      </ul>
+    </div>
+    <div class="task2-card">
+      <h4>Stage 3 — Outlier Detection & Cleaning</h4>
+      <ul>
+        <li>Compute Z-scores for 7 key variables</li>
+        <li>Flag rows where |Z| &gt; 3</li>
+        <li>Decision: <em>retain</em> outliers (real extreme events for COP32 narrative)</li>
+        <li>Forward-fill remaining NaNs; drop rows &gt;30% missing</li>
+        <li>Export to <code>data/&lt;country&gt;_clean.csv</code></li>
+      </ul>
+    </div>
+    <div class="task2-card">
+      <h4>Stage 4 — Time Series Analysis</h4>
+      <ul>
+        <li>Monthly average T2M line chart (2015–2026) with warmest/coolest annotations</li>
+        <li>OLS warming trend line (°C/year)</li>
+        <li>Monthly total PRECTOTCORR bar chart with peak rainy season annotation</li>
+        <li>Markdown interpretation of trends and anomalies</li>
+      </ul>
+    </div>
+    <div class="task2-card">
+      <h4>Stage 5 — Correlation & Relationships</h4>
+      <ul>
+        <li>Lower-triangle correlation heatmap (all numeric columns)</li>
+        <li>Scatter: T2M vs RH2M with regression line (r value)</li>
+        <li>Scatter: T2M_RANGE vs WS2M</li>
+        <li>Identify and interpret top 3 correlations</li>
+      </ul>
+    </div>
+    <div class="task2-card">
+      <h4>Stage 6 — Distribution Analysis</h4>
+      <ul>
+        <li>PRECTOTCORR histogram on log(1+x) scale with skewness annotation</li>
+        <li>Bubble chart: T2M vs RH2M, bubble size ∝ PRECTOTCORR</li>
+        <li>Comment on distribution shape and climate interpretation</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>2.3 Key Analytical Decisions</h2>
+
+  <h3>On Outlier Treatment</h3>
+  <p>
+    Extreme precipitation events that register |Z| &gt; 3 are <strong>retained</strong> rather than
+    dropped or capped. These represent climatically real extreme events — flash floods,
+    El Niño-driven rainfall surges — which are precisely the signals relevant to a COP32
+    vulnerability analysis. Removing them would systematically understate climate risk.
+  </p>
+
+  <h3>On Missing Value Strategy</h3>
+  <p>
+    Forward-fill (<code>ffill()</code>) is applied to weather variables following NASA POWER
+    convention, where short gaps typically represent sensor outages with negligible climatological
+    change. Rows where more than 30% of numeric values remain missing after forward-fill
+    are dropped to prevent distortion of statistical summaries.
+  </p>
+
+  <h3>On the -999 Sentinel</h3>
+  <p>
+    NASA POWER uses <code>-999</code> as a sentinel value for missing or out-of-range measurements.
+    This replacement is performed as the <em>first</em> operation after loading — before
+    <code>describe()</code>, before Z-score computation, before any visualization — to ensure
+    no statistics are contaminated by this artificial value.
+  </p>
+
+  <h2>2.4 Expected Insights Preview</h2>
+
+  <div class="insight-box">
+    <h4>Preliminary Hypotheses (to be validated with data)</h4>
+    <ul>
+      <li>Ethiopia: bimodal Belg (Mar–May) and Kiremt (Jun–Sep) precipitation structure; 2020–2023 drought anomaly visible in Kiremt suppression</li>
+      <li>Kenya: strong ENSO-driven precipitation variability; Indian Ocean Dipole influence on long rains (Mar–May)</li>
+      <li>Sudan: highest mean temperatures; longest consecutive dry-day sequences; sharpest warming trend</li>
+      <li>Tanzania: pronounced single rainy season (Nov–Apr); coastal vs. highland temperature gradient</li>
+      <li>Nigeria: highest precipitation CV due to Sahel–forest latitudinal gradient; Harmattan dry-season signal in WS2M</li>
+    </ul>
+  </div>
+
+  <h2>2.5 Planned Deliverables for Final Submission</h2>
+
+  <ul class="checklist">
+    <li>5 cleaned CSVs exported to <code>data/</code> (gitignored, not committed)</li>
+    <li>5 country EDA notebooks with all 6 stages complete and markdown interpretations</li>
+    <li><code>compare_countries.ipynb</code> with cross-country comparison and vulnerability ranking</li>
+    <li>Streamlit dashboard deployed to Streamlit Community Cloud</li>
+    <li>Final report in Medium blog style (PDF format)</li>
+  </ul>
+
+  <h2>2.6 References Consulted</h2>
+  <p>
+    <strong>WMO State of the Climate in Africa 2024</strong> — used for regional warming baselines and subregional decomposition framework.<br>
+    <strong>World Bank Climate Risk Country Profiles</strong> (Ethiopia, Kenya) — used as structural template for country-level analysis.<br>
+    <strong>NASA POWER Data Access Viewer</strong> — primary data source documentation.<br>
+    <strong>Addis Ababa Declaration (ACS2, Sep 2025)</strong> — rhetorical frame: Africa-as-strategic-player at COP32.
+  </p>
+
+</div>
+
+<div class="footer">
+  <strong>African Climate Trend Analysis — Week 0 Interim Report</strong><br>
+  Rediet Shewarega · 10 Academy · April 2026<br>
+  github.com/rediet-shewarega/climate-challenge-week0
+</div>
+
+</body>
+</html>

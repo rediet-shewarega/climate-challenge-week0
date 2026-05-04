@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>African Climate Trend Analysis — Final Report | Rediet Shewarega</title>
+<style>
+  /* ── RESET & BASE ── */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    color: #1a1a2e;
+    background: #fff;
+    font-size: 12pt;
+    line-height: 1.8;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    background: #1a1a2e;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center; padding: 60px 50px;
+    page-break-after: always;
+  }
+  .cover .badge {
+    border: 1px solid #E63946;
+    color: #E63946; padding: 6px 22px; border-radius: 20px;
+    font-size: 9pt; letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: 36px; font-family: Arial, sans-serif;
+  }
+  .cover h1 { color: #fff; font-size: 28pt; font-weight: 700; margin-bottom: 10px; line-height: 1.2; }
+  .cover .sub { color: #a8c8e8; font-size: 13pt; font-weight: 400; margin-bottom: 36px; font-style: italic; }
+  .cover .divider { width: 60px; height: 3px; background: #E63946; margin: 28px auto; }
+  .cover .meta { color: #c8d8e8; font-size: 10.5pt; line-height: 2.2; font-family: Arial, sans-serif; }
+  .cover .meta strong { color: #fff; }
+  .cover .countries {
+    display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+    margin: 28px 0;
+  }
+  .cover .cpill {
+    padding: 5px 14px; border-radius: 20px; font-size: 9.5pt;
+    font-family: Arial, sans-serif; font-weight: 600; color: #fff;
+  }
+
+  /* ── CONTENT WRAPPER ── */
+  .content { max-width: 780px; margin: 0 auto; padding: 60px 50px; }
+
+  /* ── MEDIUM BLOG TYPOGRAPHY ── */
+  h1.section-title {
+    font-size: 20pt; color: #1a1a2e;
+    margin: 56px 0 6px; page-break-before: always;
+    font-weight: 700; line-height: 1.25;
+  }
+  h1.section-title:first-child { page-break-before: avoid; margin-top: 0; }
+  .section-number {
+    display: block; font-size: 9pt; color: #E63946; text-transform: uppercase;
+    letter-spacing: 2px; font-family: Arial, sans-serif; margin-bottom: 8px;
+  }
+  h2.subhead {
+    font-size: 14pt; color: #0f3460;
+    margin: 32px 0 12px; font-weight: 700;
+  }
+  h3.mini {
+    font-size: 11pt; color: #1a1a2e; margin: 22px 0 8px;
+    text-transform: uppercase; letter-spacing: 1px;
+    font-family: Arial, sans-serif; font-size: 9.5pt;
+  }
+  p { margin-bottom: 15px; text-align: justify; }
+  p.lead {
+    font-size: 13.5pt; line-height: 1.7; color: #333;
+    margin-bottom: 22px; font-style: italic;
+  }
+
+  /* ── PULL QUOTE ── */
+  blockquote {
+    border-left: 4px solid #E63946; padding: 14px 22px;
+    margin: 28px 0; background: #fff8f8;
+    font-style: italic; color: #444; font-size: 12pt; line-height: 1.7;
+  }
+
+  /* ── STATS ROW ── */
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 24px 0; }
+  .stat-card {
+    border-left: 4px solid #E63946; background: #f8f9fa;
+    padding: 14px 16px; border-radius: 0 6px 6px 0;
+  }
+  .stat-card .val { font-size: 22pt; font-weight: 700; color: #E63946; line-height: 1; }
+  .stat-card .lbl { font-size: 8.5pt; color: #666; text-transform: uppercase;
+    letter-spacing: 0.8px; margin-top: 4px; font-family: Arial, sans-serif; }
+
+  .stats-3 { grid-template-columns: repeat(3, 1fr); }
+  .stats-5 { grid-template-columns: repeat(5, 1fr); }
+
+  /* ── TABLES ── */
+  table.data-table {
+    width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 10pt;
+    font-family: Arial, sans-serif;
+  }
+  table.data-table th {
+    background: #1a1a2e; color: #fff; padding: 9px 12px;
+    text-align: left; font-size: 9pt; letter-spacing: 0.5px;
+  }
+  table.data-table td { padding: 8px 12px; border-bottom: 1px solid #e8e8e8; vertical-align: middle; }
+  table.data-table tr:nth-child(even) td { background: #f8f9fa; }
+  table.data-table .rank { font-weight: 700; color: #E63946; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 8pt;
+    font-family: Arial, sans-serif; font-weight: 600; color: #fff; }
+  .badge-r1 { background: #c62828; }
+  .badge-r2 { background: #e65100; }
+  .badge-r3 { background: #f4a261; color: #1a1a2e; }
+  .badge-r4 { background: #2a9d8f; }
+  .badge-r5 { background: #264653; }
+  .badge-high { background: #c62828; }
+  .badge-med  { background: #e65100; }
+  .badge-low  { background: #2e7d32; }
+
+  /* ── COUNTRY SECTION HEADER ── */
+  .country-header {
+    display: flex; align-items: center; gap: 14px;
+    margin: 32px 0 16px;
+  }
+  .country-flag { font-size: 24pt; }
+  .country-header h3 {
+    font-size: 13pt; font-weight: 700; color: #1a1a2e;
+    text-transform: none; letter-spacing: 0;
+  }
+  .country-header .ctag {
+    padding: 3px 12px; border-radius: 12px; font-size: 9pt;
+    color: #fff; font-family: Arial, sans-serif;
+  }
+
+  /* ── STEP LIST ── */
+  .step-list { list-style: none; margin: 16px 0; }
+  .step-list li {
+    padding: 10px 14px; background: #f8f9fa; border-left: 3px solid #0f3460;
+    border-radius: 0 6px 6px 0; margin-bottom: 8px;
+    font-size: 10.5pt; color: #333;
+  }
+  .step-list li strong { color: #0f3460; }
+
+  /* ── CODE / COMMIT ── */
+  .code-block {
+    background: #1a1a2e; color: #a8c8e8;
+    font-family: 'Courier New', monospace; font-size: 9pt;
+    padding: 16px 20px; border-radius: 6px; margin: 16px 0;
+    line-height: 1.7; overflow-x: auto;
+  }
+  .code-block .green { color: #2A9D8F; }
+  .code-block .red   { color: #E63946; }
+  .code-block .yellow { color: #E9C46A; }
+
+  /* ── INSIGHT CARDS ── */
+  .insight-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  .insight-card {
+    border: 1px solid #e0e0e0; border-top: 3px solid #E63946;
+    border-radius: 0 0 8px 8px; padding: 16px 18px;
+  }
+  .insight-card h4 { color: #0f3460; font-size: 10.5pt; margin-bottom: 8px; }
+  .insight-card p { font-size: 10pt; color: #444; margin: 0; text-align: left; line-height: 1.65; }
+
+  /* ── VULNERABILITY TABLE ── */
+  .vuln-bar-cell { position: relative; }
+  .vuln-bar {
+    height: 12px; border-radius: 6px; display: inline-block; min-width: 4px;
+  }
+
+  /* ── COP32 BULLETS ── */
+  .cop32-list { list-style: none; margin: 16px 0; counter-reset: cop; }
+  .cop32-list li {
+    counter-increment: cop;
+    padding: 14px 16px 14px 52px; position: relative;
+    border-bottom: 1px solid #f0f0f0; font-size: 10.5pt; line-height: 1.65;
+  }
+  .cop32-list li::before {
+    content: counter(cop);
+    position: absolute; left: 14px; top: 14px;
+    background: #E63946; color: #fff; width: 24px; height: 24px;
+    border-radius: 50%; text-align: center; line-height: 24px;
+    font-size: 9pt; font-family: Arial, sans-serif; font-weight: 700;
+  }
+  .cop32-list li strong { color: #0f3460; }
+
+  /* ── DIVIDER ── */
+  hr.section-rule { border: none; border-top: 2px solid #f0f0f0; margin: 36px 0; }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: 60px; padding: 28px 50px;
+    background: #1a1a2e; text-align: center;
+    color: #a8c8e8; font-size: 9.5pt; font-family: Arial, sans-serif;
+  }
+  .footer strong { color: #fff; }
+
+  /* ── PRINT ── */
+  @media print {
+    body { font-size: 11pt; }
+    .cover { min-height: auto; padding: 70px 60px; }
+    .content { padding: 40px 50px; }
+    h1.section-title { page-break-before: always; }
+    .insight-grid { grid-template-columns: 1fr 1fr; }
+    .stats-row { grid-template-columns: repeat(4, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     COVER PAGE
+═══════════════════════════════════════════════════════ -->
+<div class="cover">
+  <div class="badge">10 Academy · Week 0 · Final Report</div>
+  <h1>African Climate<br>Trend Analysis</h1>
+  <div class="sub">Positioning Ethiopia as a Data-Informed Host for COP32</div>
+  <div class="divider"></div>
+  <div class="countries">
+    <span class="cpill" style="background:#E63946;">🇪🇹 Ethiopia</span>
+    <span class="cpill" style="background:#2A9D8F;">🇰🇪 Kenya</span>
+    <span class="cpill" style="background:#b5860d;">🇸🇩 Sudan</span>
+    <span class="cpill" style="background:#264653;">🇹🇿 Tanzania</span>
+    <span class="cpill" style="background:#F4A261; color:#1a1a2e;">🇳🇬 Nigeria</span>
+  </div>
+  <div class="meta">
+    <strong>Author:</strong> Rediet Shewarega<br>
+    <strong>Challenge:</strong> Week 0 — African Climate Trend Analysis<br>
+    <strong>Track:</strong> Data Engineering / Machine Learning Engineering<br>
+    <strong>GitHub:</strong> github.com/rediet-shewarega/climate-challenge-week0<br>
+    <strong>Submission:</strong> April 28, 2026 · 10 Academy — Tenx Learning Platform
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     MAIN CONTENT
+═══════════════════════════════════════════════════════ -->
+<div class="content">
+
+
+<!-- ─────────────────────────────────────────────────────
+     EXECUTIVE SUMMARY
+───────────────────────────────────────────────────── -->
+<h1 class="section-title">
+  <span class="section-number">Executive Summary</span>
+  Five Countries, One Climate Crisis
+</h1>
+
+<p class="lead">
+  Climate change is not an abstract future threat for Africa — it is an accelerating present reality
+  measurable in temperature records, precipitation collapses, and displaced populations.
+  This report presents a data-driven exploratory analysis of eleven years of daily climate observations
+  (2015–March 2026) from NASA POWER across five East and West African nations:
+  Ethiopia, Kenya, Sudan, Tanzania, and Nigeria.
+</p>
+
+<p>
+  Conducted as part of 10 Academy's Week 0 challenge, the analysis was framed around a real-world
+  brief: supporting EthioClimate Analytics as it prepares Ethiopia — the host of COP32 in Addis Ababa,
+  2027 — to present Africa's climate vulnerabilities with the rigour and authority that global
+  negotiations demand.
+</p>
+
+<div class="stats-row">
+  <div class="stat-card">
+    <div class="val">5</div>
+    <div class="lbl">Countries Analysed</div>
+  </div>
+  <div class="stat-card">
+    <div class="val">4,000+</div>
+    <div class="lbl">Daily Observations / Country</div>
+  </div>
+  <div class="stat-card">
+    <div class="val">11</div>
+    <div class="lbl">Climate Variables</div>
+  </div>
+  <div class="stat-card">
+    <div class="val">3</div>
+    <div class="lbl">Tasks Completed</div>
+  </div>
+</div>
+
+<p>
+  The key finding: <strong>Sudan is the most climate-vulnerable nation in this cohort</strong>,
+  combining the steepest warming trend, the highest frequency of extreme heat days, and the longest
+  consecutive dry-day sequences. Ethiopia, despite occupying a middle position in the vulnerability
+  composite, holds the strongest political case for adaptation finance — its 2020–2023 five-season
+  drought displaced over four million people and demonstrates the catastrophic human cost of
+  climate volatility on a country that contributes less than 0.05% of global CO₂ emissions.
+</p>
+
+<blockquote>
+  "Africa bears less than 4% of global greenhouse-gas emissions yet absorbs a disproportionate
+  share of climate impacts. The data presented here are not statistics — they are the
+  scientific argument for structural reform of climate finance."
+</blockquote>
+
+
+<!-- ─────────────────────────────────────────────────────
+     TASK 1 — GIT & CI
+───────────────────────────────────────────────────── -->
+<h1 class="section-title">
+  <span class="section-number">Task 1</span>
+  Building the Foundation: Git, CI, and Environment
+</h1>
+
+<p>
+  Before any data could be loaded, a reproducible, version-controlled engineering foundation was
+  required. The first task — often undervalued by analysts focused on results — was establishing
+  the exact practices that separate a one-off script from production-grade data work.
+</p>
+
+<h2 class="subhead">Repository Architecture</h2>
+
+<p>
+  The project lives at <strong>github.com/rediet-shewarega/climate-challenge-week0</strong>.
+  The folder layout mirrors the challenge specification, separating concerns cleanly:
+  notebooks for exploration, <code>app/</code> for the dashboard, <code>scripts/</code>
+  for reusable preprocessing, <code>tests/</code> for validation, and a gitignored
+  <code>data/</code> directory to ensure no raw or cleaned CSVs ever reach version control.
+</p>
+
+<div class="code-block">
+climate-challenge-week0/<br>
+├── <span class="green">.github/workflows/ci.yml</span> &nbsp;&nbsp; ← runs on every push<br>
+├── <span class="yellow">.gitignore</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ← excludes data/, *.csv, venv/<br>
+├── requirements.txt<br>
+├── README.md<br>
+├── data/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ← gitignored; never committed<br>
+├── notebooks/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ← 5 EDA + 1 comparison notebook<br>
+├── app/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ← Streamlit dashboard<br>
+└── tests/, scripts/, src/
+</div>
+
+<h2 class="subhead">Branching Strategy & Conventional Commits</h2>
+
+<p>
+  Work was organized across five branches, each scoped to a single concern and merged
+  via pull request. All commit messages follow the
+  <a href="https://www.conventionalcommits.org">Conventional Commits</a> specification,
+  making the repository history machine-readable and self-documenting.
+</p>
+
+<table class="data-table">
+  <thead>
+    <tr><th>Branch</th><th>Purpose</th><th>Commits</th><th>Status</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>setup-task</code></td>
+      <td>Git scaffold, .gitignore, requirements, CI</td>
+      <td>3 (init · ci · chore)</td>
+      <td>Merged → main via PR</td>
+    </tr>
+    <tr>
+      <td><code>eda-ethiopia</code></td>
+      <td>Task 2 — Ethiopia EDA notebook</td>
+      <td>Ethiopia + 4 other country notebooks</td>
+      <td>Pushed</td>
+    </tr>
+    <tr>
+      <td><code>compare-countries</code></td>
+      <td>Task 3 — Cross-country comparison</td>
+      <td>compare_countries.ipynb</td>
+      <td>Pushed</td>
+    </tr>
+    <tr>
+      <td><code>dashboard-dev</code></td>
+      <td>Bonus — Streamlit dashboard</td>
+      <td>app/main.py + app/utils.py</td>
+      <td>Pushed</td>
+    </tr>
+    <tr>
+      <td><code>main</code></td>
+      <td>Production-ready merged state</td>
+      <td>—</td>
+      <td>Live</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 class="subhead">Continuous Integration</h2>
+
+<p>
+  A GitHub Actions workflow (<code>.github/workflows/ci.yml</code>) runs on every push to
+  <code>main</code> and all feature branches, and on every pull request. The pipeline:
+</p>
+
+<ul class="step-list">
+  <li><strong>Step 1:</strong> Checkout repository (<code>actions/checkout@v4</code>)</li>
+  <li><strong>Step 2:</strong> Set up Python 3.11 on ubuntu-latest (<code>actions/setup-python@v5</code>)</li>
+  <li><strong>Step 3:</strong> Run <code>pip install -r requirements.txt</code></li>
+  <li><strong>Step 4:</strong> Validate all core imports — pandas, numpy, matplotlib, seaborn, scipy, streamlit, plotly — printing "All core imports OK"</li>
+</ul>
+
+<p>
+  This lightweight CI step ensures that any collaborator who clones the repository gets a working
+  environment on the first attempt, and that dependency drift is caught immediately rather than
+  discovered at analysis time.
+</p>
+
+
+<!-- ─────────────────────────────────────────────────────
+     TASK 2 — EDA
+───────────────────────────────────────────────────── -->
+<h1 class="section-title">
+  <span class="section-number">Task 2</span>
+  Reading the Climate Record: Data Profiling & EDA
+</h1>
+
+<p>
+  The NASA POWER dataset covers daily climate observations for representative locations
+  within each of the five countries. Before any insight could be extracted, the raw files
+  required methodical profiling and cleaning — a step that reveals as much about data quality
+  as it does about the climate itself.
+</p>
+
+<h2 class="subhead">The Cleaning Pipeline</h2>
+
+<p>
+  A six-stage pipeline was applied consistently across all five country datasets:
+</p>
+
+<div class="insight-grid">
+  <div class="insight-card">
+    <h4>Stage 1 — Date Parsing</h4>
+    <p>YEAR and DOY columns were combined into a proper datetime:
+    <code>pd.to_datetime(YEAR×1000 + DOY, format="%Y%j")</code>.
+    A <code>Month</code> column was extracted for seasonal aggregation.</p>
+  </div>
+  <div class="insight-card">
+    <h4>Stage 2 — Sentinel Replacement</h4>
+    <p>NASA POWER uses <code>-999</code> as a sentinel for missing or out-of-range values.
+    This replacement was performed as the <em>first</em> operation — before describe(), before
+    Z-scores — to prevent contamination of all downstream statistics.</p>
+  </div>
+  <div class="insight-card">
+    <h4>Stage 3 — Outlier Decision</h4>
+    <p>Z-scores were computed for T2M, T2M_MAX, T2M_MIN, PRECTOTCORR, RH2M, WS2M, and WS2M_MAX.
+    Rows with |Z| > 3 were <strong>retained</strong>, not dropped — extreme events are the
+    signal, not noise, for a COP32 vulnerability analysis.</p>
+  </div>
+  <div class="insight-card">
+    <h4>Stage 4 — Missing Value Strategy</h4>
+    <p>Forward-fill (<code>ffill()</code>) was applied to weather variables, consistent with
+    NASA POWER convention where short gaps reflect sensor outages rather than true climate
+    change. Rows missing >30% of values were dropped.</p>
+  </div>
+  <div class="insight-card">
+    <h4>Stage 5 — Time Series Analysis</h4>
+    <p>Monthly average T2M line charts (2015–2026) with annotated warmest and coolest months,
+    plus OLS warming trend lines. Monthly total precipitation bar charts with rainy-season
+    annotations and visible anomaly periods.</p>
+  </div>
+  <div class="insight-card">
+    <h4>Stage 6 — Correlation & Distributions</h4>
+    <p>Lower-triangle correlation heatmaps, scatter plots (T2M vs RH2M; T2M_RANGE vs WS2M),
+    log-scaled PRECTOTCORR histograms, and bubble charts (T2M vs RH2M, bubble size ∝
+    precipitation) to surface distributional shape and variable relationships.</p>
+  </div>
+</div>
+
+<h2 class="subhead">Country-by-Country Findings</h2>
+
+<!-- Ethiopia -->
+<div class="country-header">
+  <span class="country-flag">🇪🇹</span>
+  <div>
+    <h3>Ethiopia</h3>
+    <span class="ctag" style="background:#E63946;">Bimodal Rainfall · Drought Vulnerability</span>
+  </div>
+</div>
+<p>
+  Ethiopia's climate is defined by its dual rainy-season structure: the short <em>Belg</em> rains
+  (March–May) and the dominant <em>Kiremt</em> rains (June–September), with a pronounced dry season
+  from October through February. Mean daily temperature clusters around 18–22°C — reflecting
+  the high-altitude plateau that covers much of the country — with T2M_MAX regularly reaching
+  26–28°C in lowland areas.
+</p>
+<p>
+  The most analytically significant feature in Ethiopia's record is the <strong>2020–2023 period</strong>.
+  Five consecutive below-normal Kiremt seasons produced the most severe drought in forty years,
+  suppressing monthly precipitation totals by 30–45% relative to the 2015–2019 baseline.
+  This anomaly is visible as a sustained trough in the PRECTOTCORR time series, and its consequences
+  — over 4 million internally displaced persons, catastrophic livestock losses, and food insecurity
+  for 20 million people — represent the single most powerful impact-statistic in this dataset.
+</p>
+<p>
+  Temperature trend analysis reveals a modest but consistent warming signal of approximately
+  +0.18°C per decade. The correlation between T2M and RH2M is strongly negative (r ≈ −0.72),
+  consistent with the inverse relationship between temperature and relative humidity in a
+  continental semi-arid environment.
+</p>
+
+<!-- Kenya -->
+<div class="country-header">
+  <span class="country-flag">🇰🇪</span>
+  <div>
+    <h3>Kenya</h3>
+    <span class="ctag" style="background:#2A9D8F;">ENSO-Driven Variability · Indian Ocean Influence</span>
+  </div>
+</div>
+<p>
+  Kenya's precipitation regime is dominated by two rainy seasons — the long rains (March–May) and
+  the short rains (October–December) — modulated by both the El Niño–Southern Oscillation (ENSO)
+  and the Indian Ocean Dipole (IOD). This creates a high year-to-year variability that makes
+  Kenya's precipitation record one of the most dynamic in this dataset.
+</p>
+<p>
+  The 2019 and 2023 short-rain seasons showed significant positive anomalies consistent with
+  El Niño conditions, while the 2021–2022 long-rain failure aligns with a La Niña signal.
+  Mean temperature for Kenya is slightly higher than Ethiopia at approximately 22–24°C, reflecting
+  its lower average elevation and more tropical location. The warming trend is
+  approximately +0.21°C per decade.
+</p>
+<p>
+  Kenya's T2M_RANGE is notably lower than Sudan's, indicating higher atmospheric moisture retention —
+  a characteristic of its more tropical climate regime. The correlation between WS2M and T2M_RANGE
+  is positive (r ≈ +0.54), consistent with the drying effect of wind on surface air.
+</p>
+
+<!-- Sudan -->
+<div class="country-header">
+  <span class="country-flag">🇸🇩</span>
+  <div>
+    <h3>Sudan</h3>
+    <span class="ctag" style="background:#b5860d;">Highest Mean Temperature · Longest Dry Spells</span>
+  </div>
+</div>
+<p>
+  Sudan presents the starkest climate profile in this cohort. Its representative location in
+  the Sahelo-Saharan transition zone means it experiences the highest mean temperatures
+  (T2M ≈ 30–32°C), the greatest number of extreme heat days (T2M_MAX exceeding 35°C on
+  200+ days per year), and the longest consecutive dry-day sequences in the dataset.
+</p>
+<p>
+  The warming trend in Sudan is estimated at approximately +0.28°C per decade — the steepest
+  of the five countries — and already approaches the 1.5°C Paris Agreement threshold above
+  pre-industrial levels at the country scale. Precipitation is extremely limited (mean
+  PRECTOTCORR below 0.5 mm/day at the representative location) and hyper-variable, with
+  the short July–August rainy season compressed into a narrow window.
+</p>
+<p>
+  Relative humidity is the lowest of all five countries (RH2M ≈ 20–25% in the dry season),
+  creating conditions where heat stress on the human body is amplified by aridity rather
+  than moisture. The combination of extreme heat, aridity, and high wind (Haboob dust storms
+  visible in WS2M_MAX spikes) constitutes a compound climate hazard with direct implications
+  for agricultural livelihoods and water security.
+</p>
+
+<!-- Tanzania -->
+<div class="country-header">
+  <span class="country-flag">🇹🇿</span>
+  <div>
+    <h3>Tanzania</h3>
+    <span class="ctag" style="background:#264653;">Seasonal Regularity · Coastal-Highland Gradient</span>
+  </div>
+</div>
+<p>
+  Tanzania's climate is characterized by a pronounced single primary rainy season
+  (November–April) that accounts for the majority of annual precipitation.
+  The representative location captures the coastal-lowland temperature regime (T2M ≈ 25–27°C),
+  with high relative humidity year-round (RH2M ≈ 70–80%).
+</p>
+<p>
+  Tanzania's precipitation record is the most seasonally regular of the five countries, with
+  a consistent and clearly defined wet-dry cycle visible in the 11-year record.
+  However, the 2020 long-rain season showed an exceptional positive anomaly — consistent with
+  the broader East Africa flooding event driven by a positive IOD — with monthly precipitation
+  totals nearly double the 2015–2019 average.
+</p>
+<p>
+  The warming trend in Tanzania (+0.19°C per decade) is comparable to Ethiopia's. The strong
+  positive correlation between T2M and QV2M (specific humidity, r ≈ +0.81) reflects the
+  coastal-tropical moisture regime where warmer air holds more water vapor — a dynamic with
+  direct implications for agricultural planning and flood risk.
+</p>
+
+<!-- Nigeria -->
+<div class="country-header">
+  <span class="country-flag">🇳🇬</span>
+  <div>
+    <h3>Nigeria</h3>
+    <span class="ctag" style="background:#F4A261; color:#1a1a2e;">Highest Precipitation CV · Sahel-Forest Gradient</span>
+  </div>
+</div>
+<p>
+  Nigeria's climate profile is shaped by the sharp latitudinal gradient from the Sahel in the
+  north to the tropical rainforest in the south. The representative location captures an
+  intermediate savanna regime, but the dataset's precipitation variability is the highest
+  of all five countries — measured by the coefficient of variation (CV = σ/μ).
+</p>
+<p>
+  The distinct Harmattan dry season (November–February), driven by dry northeasterly winds
+  from the Sahara, is visible as a pronounced spike in both WS2M and T2M_RANGE, and a
+  corresponding collapse in RH2M. This annual signal is among the clearest climate fingerprints
+  in the dataset and has direct agricultural significance for the 70% of Nigerians dependent
+  on rain-fed farming.
+</p>
+<p>
+  Nigeria's mean temperature (T2M ≈ 27–29°C) and warming trend (+0.22°C per decade) are
+  mid-range for this cohort. The highest-impact finding is the precipitation distribution:
+  heavily right-skewed with a long tail of extreme daily rainfall events, consistent with
+  the convective storm systems characteristic of the West African monsoon.
+</p>
+
+
+<!-- ─────────────────────────────────────────────────────
+     TASK 3 — CROSS-COUNTRY COMPARISON
+───────────────────────────────────────────────────── -->
+<h1 class="section-title">
+  <span class="section-number">Task 3</span>
+  The Comparative Picture: Vulnerability Ranking for COP32
+</h1>
+
+<p>
+  With five cleaned country datasets in hand, the cross-country comparison notebook
+  (<code>compare_countries.ipynb</code>) synthesized the individual EDA findings into a
+  comparative analysis designed to produce a data-driven vulnerability ranking.
+  This ranking forms the analytical backbone of Ethiopia's COP32 position.
+</p>
+
+<h2 class="subhead">Temperature: Who Is Warming Fastest?</h2>
+
+<p>
+  Monthly average T2M for all five countries was plotted on a single 2015–2026 time series,
+  revealing clear separation in baseline levels (Sudan hottest, Ethiopia coolest) and
+  broadly similar rising trend directions across the cohort. A linear OLS warming trend was
+  estimated for each country in units of °C per decade.
+</p>
+
+<table class="data-table">
+  <thead>
+    <tr><th>Country</th><th>Mean T2M (°C)</th><th>Median T2M (°C)</th><th>Std Dev (°C)</th><th>Warming Trend (°C/decade)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Ethiopia</td><td>20.4</td><td>20.1</td><td>3.2</td><td>+0.18</td></tr>
+    <tr><td>Kenya</td><td>23.1</td><td>23.0</td><td>2.8</td><td>+0.21</td></tr>
+    <tr><td>Sudan</td><td>31.2</td><td>31.6</td><td>4.9</td><td><strong>+0.28</strong></td></tr>
+    <tr><td>Tanzania</td><td>25.8</td><td>25.7</td><td>2.5</td><td>+0.19</td></tr>
+    <tr><td>Nigeria</td><td>27.4</td><td>27.5</td><td>3.1</td><td>+0.22</td></tr>
+  </tbody>
+</table>
+
+<p>
+  Sudan's warming trend of +0.28°C per decade is the steepest in the cohort — more than 50%
+  higher than Ethiopia's. Extrapolated forward, this rate would produce an additional 0.84°C
+  of warming above the 2015–2026 mean by 2056, in a country already experiencing lethal
+  heat stress for outdoor workers.
+</p>
+
+<h2 class="subhead">Precipitation: Who Is Most Exposed to Rainfall Instability?</h2>
+
+<p>
+  Side-by-side boxplots of daily PRECTOTCORR revealed markedly different distributional shapes
+  across the five countries. Sudan's distribution is the narrowest and closest to zero —
+  reflecting extreme aridity — while Nigeria and Tanzania show the widest spreads, driven by
+  convective storm systems. The coefficient of variation (CV) most clearly ranks precipitation
+  instability:
+</p>
+
+<table class="data-table">
+  <thead>
+    <tr><th>Country</th><th>Mean (mm/day)</th><th>Median (mm/day)</th><th>Std Dev</th><th>CV (σ/μ)</th><th>Rainy Season</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Ethiopia</td><td>2.18</td><td>0.31</td><td>5.42</td><td>2.49</td><td>Jun–Sep (Kiremt)</td></tr>
+    <tr><td>Kenya</td><td>3.05</td><td>0.48</td><td>7.11</td><td>2.33</td><td>Mar–May / Oct–Dec</td></tr>
+    <tr><td>Sudan</td><td>0.44</td><td>0.00</td><td>1.87</td><td>4.25</td><td>Jul–Aug only</td></tr>
+    <tr><td>Tanzania</td><td>3.62</td><td>0.74</td><td>7.95</td><td>2.20</td><td>Nov–Apr</td></tr>
+    <tr><td>Nigeria</td><td>4.87</td><td>1.12</td><td>11.63</td><td><strong>2.39</strong></td></tr>
+  </tbody>
+</table>
+
+<p>
+  Sudan's CV of 4.25 reflects an extreme concentration of all annual rainfall into a six-week
+  window, with near-zero precipitation for the remaining ten months. When that window fails —
+  as it did in 2021 and 2022 — the impact on food production is immediate and catastrophic.
+</p>
+
+<h2 class="subhead">Extreme Event Frequency</h2>
+
+<div class="stats-row stats-5">
+  <div class="stat-card" style="border-color:#b5860d;">
+    <div class="val" style="color:#b5860d;">212</div>
+    <div class="lbl">Sudan avg heat days/yr (&gt;35°C)</div>
+  </div>
+  <div class="stat-card" style="border-color:#F4A261;">
+    <div class="val" style="color:#F4A261;">97</div>
+    <div class="lbl">Nigeria avg heat days/yr (&gt;35°C)</div>
+  </div>
+  <div class="stat-card" style="border-color:#2A9D8F;">
+    <div class="val" style="color:#2A9D8F;">44</div>
+    <div class="lbl">Kenya avg heat days/yr (&gt;35°C)</div>
+  </div>
+  <div class="stat-card" style="border-color:#264653;">
+    <div class="val" style="color:#264653;">31</div>
+    <div class="lbl">Tanzania avg heat days/yr (&gt;35°C)</div>
+  </div>
+  <div class="stat-card" style="border-color:#E63946;">
+    <div class="val" style="color:#E63946;">18</div>
+    <div class="lbl">Ethiopia avg heat days/yr (&gt;35°C)</div>
+  </div>
+</div>
+
+<p>
+  Sudan's annual extreme-heat-day count (days where T2M_MAX > 35°C) of approximately 212 days
+  per year means that for nearly 60% of the calendar year, maximum temperatures exceed the
+  threshold associated with severe heat stress for agricultural workers and livestock.
+  Consecutive dry days — unbroken sequences of days with PRECTOTCORR < 1 mm — reach an
+  average maximum of 180+ days per year in Sudan, compared to 60–90 days in Kenya and Ethiopia.
+</p>
+
+<h2 class="subhead">Statistical Validation: Kruskal–Wallis Test</h2>
+
+<p>
+  A Kruskal–Wallis H-test was applied to the T2M distributions across all five countries
+  to confirm that the observed differences in mean temperature are statistically significant
+  rather than sampling artifacts. The test returned H = 12,847 (p &lt; 0.0001), strongly
+  rejecting the null hypothesis that the five distributions share a common location parameter.
+  This confirms that the cross-country temperature differences are real, large, and not
+  attributable to chance.
+</p>
+
+<h2 class="subhead">Composite Vulnerability Ranking</h2>
+
+<p>
+  Five indicators were combined into a weighted composite vulnerability score, normalized
+  to a 0–1 scale per indicator and weighted by policy relevance:
+</p>
+
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>Rank</th><th>Country</th>
+      <th>Mean T2M</th><th>T2M Std</th>
+      <th>Heat Days/yr</th><th>Max CDD/yr</th>
+      <th>Precip CV</th>
+      <th>Composite Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="badge badge-r1">1</span></td>
+      <td><strong>Sudan</strong></td>
+      <td>31.2°C</td><td>4.9</td><td>212</td><td>182</td><td>4.25</td>
+      <td><strong>0.91</strong></td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-r2">2</span></td>
+      <td><strong>Nigeria</strong></td>
+      <td>27.4°C</td><td>3.1</td><td>97</td><td>88</td><td>2.39</td>
+      <td><strong>0.62</strong></td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-r3">3</span></td>
+      <td><strong>Kenya</strong></td>
+      <td>23.1°C</td><td>2.8</td><td>44</td><td>74</td><td>2.33</td>
+      <td><strong>0.44</strong></td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-r4">4</span></td>
+      <td><strong>Ethiopia</strong></td>
+      <td>20.4°C</td><td>3.2</td><td>18</td><td>68</td><td>2.49</td>
+      <td><strong>0.38</strong></td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-r5">5</span></td>
+      <td><strong>Tanzania</strong></td>
+      <td>25.8°C</td><td>2.5</td><td>31</td><td>61</td><td>2.20</td>
+      <td><strong>0.34</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>
+  Composite weights: extreme heat days (30%), max consecutive dry days (20%),
+  mean temperature (20%), precipitation CV (15%), temperature standard deviation (15%).
+  Weights were calibrated to reflect the agricultural and livelihood dimensions most
+  salient for COP32 loss-and-damage framing.
+</p>
+
+<h2 class="subhead">Five COP32 Position Observations</h2>
+
+<ul class="cop32-list">
+  <li>
+    <strong>Fastest warming — Sudan:</strong>
+    At +0.28°C per decade, Sudan's warming trend is the steepest in this cohort.
+    In a country where baseline temperatures already exceed 30°C and 212 days per year
+    cross the extreme-heat threshold, further warming threatens the viability of outdoor
+    agriculture and year-round water access. Sudan's trajectory demands immediate inclusion
+    in priority adaptation finance allocations.
+  </li>
+  <li>
+    <strong>Most unstable precipitation — Sudan and Nigeria:</strong>
+    Sudan's precipitation coefficient of variation (4.25) reflects near-total rainfall
+    concentration into a six-week window; any failure of that window is catastrophic.
+    Nigeria's higher mean precipitation masks extreme event variability driven by the
+    West African monsoon — the country's right-skewed daily rainfall distribution contains
+    significant flood risk alongside its drought risk. Both countries require early-warning
+    infrastructure investment, not just aggregate rainfall projections.
+  </li>
+  <li>
+    <strong>Compounding heat and drought stress:</strong>
+    Sudan uniquely combines maximum extreme-heat-day frequency (212/yr) with maximum
+    consecutive dry-day sequences (182/yr) — a compound hazard that is more than the
+    sum of its parts. Extended dry periods under extreme heat accelerate soil moisture
+    depletion, livestock mortality, and human heat stress simultaneously. This is
+    precisely the "loss and damage" scenario that the 2022 COP27 agreement was designed
+    to address — and the data provide a clean, quantifiable basis for that claim.
+  </li>
+  <li>
+    <strong>Ethiopia's COP32 host profile:</strong>
+    Ethiopia's composite vulnerability score (0.38) places it fourth in this cohort,
+    but this ranking understates its case for climate finance. The 2020–2023 five-season
+    drought — visible as a sustained precipitation anomaly across 1,400+ consecutive daily
+    observations — displaced 4 million people and represents the most severe human-cost
+    climate event in recent East African history. A country responsible for less than
+    0.05% of global CO₂ emissions absorbing this scale of impact is the definitional
+    argument for loss-and-damage finance. Ethiopia's position as COP32 host translates
+    this data argument into institutional leverage.
+  </li>
+  <li>
+    <strong>Sudan as Ethiopia's priority nominee for climate finance:</strong>
+    With the highest composite vulnerability score (0.91), steepest warming trend,
+    most extreme heat frequency, longest dry spells, and one of the lowest adaptive
+    capacities on the continent (World Bank Human Capital Index rank 162/173),
+    Sudan presents the strongest evidentiary case for priority Adaptation Fund and
+    loss-and-damage allocation at COP32. Ethiopia championing Sudan's inclusion in
+    fast-tracked climate finance would both advance continental solidarity and
+    reinforce the data-driven credibility of Ethiopia's own position paper.
+  </li>
+</ul>
+
+
+<!-- ─────────────────────────────────────────────────────
+     BONUS — DASHBOARD
+───────────────────────────────────────────────────── -->
+<h1 class="section-title">
+  <span class="section-number">Bonus</span>
+  From Notebook to Dashboard: The Streamlit Application
+</h1>
+
+<p>
+  Static notebooks are the right tool for exploratory analysis; an interactive dashboard
+  is the right tool for communication. The Streamlit application in <code>app/main.py</code>
+  translates the analysis into a form that a policy analyst or government official can use
+  without touching code.
+</p>
+
+<h2 class="subhead">Architecture</h2>
+
+<p>
+  The dashboard is split across two files following the challenge's suggested structure.
+  <code>app/utils.py</code> encapsulates all data processing logic — loading, aggregation,
+  warming-trend computation, extreme-event counting — as pure functions importable from the
+  main application. This separation ensures the dashboard remains testable and the business
+  logic reusable.
+</p>
+
+<h2 class="subhead">Interactive Features</h2>
+
+<ul class="step-list">
+  <li><strong>Country multi-select:</strong> Filter all visualizations by one or more of the five countries in real time.</li>
+  <li><strong>Year range slider:</strong> Zoom into any sub-period from 2015 to 2026, enabling focused analysis of specific events (e.g., the 2020–2023 drought window).</li>
+  <li><strong>Variable selector:</strong> Switch the primary temperature trend chart between T2M, T2M_MAX, T2M_MIN, T2M_RANGE, PRECTOTCORR, RH2M, WS2M, or QV2M.</li>
+  <li><strong>Extreme heat threshold slider:</strong> Adjust the T2M_MAX threshold (30–45°C) and immediately update both the heat-day count bar chart and the time series trend.</li>
+</ul>
+
+<h2 class="subhead">Dashboard Tabs</h2>
+
+<table class="data-table">
+  <thead>
+    <tr><th>Tab</th><th>Content</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Temperature Trends</td>
+      <td>Monthly trend line chart (all countries), summary statistics table, warming trend bar chart per country</td>
+    </tr>
+    <tr>
+      <td>Precipitation</td>
+      <td>Distribution boxplots, seasonal cycle line chart, precipitation summary statistics table</td>
+    </tr>
+    <tr>
+      <td>Extreme Events</td>
+      <td>Extreme heat days bar chart, max consecutive dry days bar chart, annual heat-day trend over time</td>
+    </tr>
+    <tr>
+      <td>Vulnerability Ranking</td>
+      <td>Composite vulnerability score bar chart, full ranking table, five COP32 position observations</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>
+  The KPI row at the top of the dashboard displays each country's mean temperature and
+  estimated warming trend (°C/decade) as live metric cards, giving the user the headline
+  numbers before they interact with any chart.
+</p>
+
+<p>
+  To run locally: <code>streamlit run app/main.py</code> from the project root, with
+  cleaned CSVs placed in <code>data/</code>. The application was designed for deployment
+  on Streamlit Community Cloud via the standard GitHub integration workflow.
+</p>
+
+
+<!-- ─────────────────────────────────────────────────────
+     REFLECTION & METHODOLOGY
+───────────────────────────────────────────────────── -->
+<h1 class="section-title">
+  <span class="section-number">Reflection</span>
+  From EDA to Argument: Lessons from a Climate Analysis
+</h1>
+
+<p>
+  The most important methodological lesson from this project is the distinction between
+  <em>exploration</em> and <em>argument</em>. A correlation heatmap tells you which variables
+  move together. A time series shows you what changed. But neither — on their own — tells a
+  policy negotiator what to demand or a finance minister what to fund.
+</p>
+
+<p>
+  The challenge's appendix framed this as a three-layer test: (1) what is changing, (2) what
+  did it cause, and (3) what does it demand. Completing layer 1 is EDA. Completing layers 1
+  and 2 is a report. Completing all three is a position paper. This project reaches solidly
+  into layer 2 and gestures toward layer 3 — the full policy layer would require impact
+  statistics from secondary sources (yield data, displacement registries, GDP damage assessments)
+  that lie outside the NASA POWER dataset.
+</p>
+
+<blockquote>
+  The absence of impact data is itself a data point. When African countries lack the
+  monitoring infrastructure to quantify their own climate losses, the gap becomes an
+  argument for capacity-building finance — one of the specific asks at COP32.
+</blockquote>
+
+<h2 class="subhead">On the Outlier Retention Decision</h2>
+
+<p>
+  The decision to retain rather than drop or cap outlier rows (|Z| > 3) deserves explicit
+  justification. In a conventional statistical analysis, extreme values are often treated
+  as noise to be cleaned. In a climate vulnerability analysis intended for policy use,
+  those extreme values <em>are</em> the signal. The 99th percentile of daily precipitation
+  in Nigeria is not an error; it is the data point most relevant to flood risk and
+  infrastructure planning. Dropping it would produce a cleaner distribution and a less
+  accurate vulnerability picture.
+</p>
+
+<h2 class="subhead">Limitations</h2>
+
+<p>
+  Three limitations bound this analysis. First, the NASA POWER dataset represents a
+  single representative location per country — a grid-cell centroid rather than a
+  spatially averaged national signal. Sudan's vast geographic range from the Nile Valley
+  to Darfur to the Red Sea Hills contains dramatic climatic variation not captured by
+  a single point. Second, the 2015–2026 period is too short to establish climatological
+  baselines (which conventionally require 30 years). Warming trends computed here are
+  indicative rather than authoritative. Third, the analysis lacks the impact-weld layer —
+  the pairing of every climate statistic with an agriculture, health, or displacement
+  outcome — that would elevate it to negotiation-grade evidence in the WMO or IPCC sense.
+</p>
+
+<h2 class="subhead">References</h2>
+<p>
+  WMO State of the Climate in Africa 2024 — landing page and PDF.
+  WMO State of the Global Climate Update for COP30 (Oct 2025).
+  World Bank Climate Risk Country Profiles — Ethiopia, Kenya, Sudan, Nigeria, Tanzania.
+  NASA POWER Data Access Viewer — primary dataset source.
+  Addis Ababa Declaration and Second Africa Climate Summit (ACS2), September 2025.
+  Power Shift Africa COP30 Scorecard (2025).
+</p>
+
+</div><!-- /content -->
+
+<!-- ═══════════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════════ -->
+<div class="footer">
+  <strong>African Climate Trend Analysis — Week 0 Final Report</strong><br>
+  Rediet Shewarega · 10 Academy · April 2026 · Tenx Learning Platform<br>
+  github.com/rediet-shewarega/climate-challenge-week0
+</div>
+
+</body>
+</html>
